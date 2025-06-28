@@ -13,7 +13,11 @@ class InventoryPage(BasePage):
     TITLE =(By.CLASS_NAME,"title")
     ADD_BACK_PACK_BTN= (By.XPATH,"//div[text()='Sauce Labs Backpack']/following::button[1]")
     CART_BADGE = (By.XPATH,"//div/a/span[@class='shopping_cart_badge']")
-
+    CART_ICON=(By.XPATH,"//a[@class='shopping_cart_link']")
+    MENU_BTN=(By.XPATH,"//button[@id='react-burger-menu-btn']")
+    LOGOUT_BTN=(By.XPATH,"//a[contains(text(),'Logout')]")
+    ABOUT_BTN=(By.XPATH,"// a[contains(text(), 'About')]")
+    RESET_APP_STATE=(By.XPATH,"//a[contains(text(),'Reset App State')]")
 
     def get_title(self):
         return self.driver.find_element(*self.TITLE).text.lower()
@@ -48,7 +52,32 @@ class InventoryPage(BasePage):
         return int(self.get_text(self.CART_BADGE))
 
     def add_product_to_cart_by_name(self,product_name):
-        Product_Xpath = f"//div[text()='{product_name}']/following::button[1]"
+       # Product_Xpath = f"//div[text()='{product_name}']/following::button[1]"
+       # Product_Xpath= f"//div[@class='inventory_item'][.//div[text=()='{product_name}']]//button" --->This can also be used
+       #Explicity specifying the button type to avoid errors --> 'Add to Cart'
+        Product_Xpath= f"//div[text()='{product_name}']/ancestor::div[@class='inventory_item']//button[contains (text(),'Add to cart')]"
         locator = (By.XPATH,Product_Xpath)  #locator is a tuple which needs () when passed in click method
         self.click(locator)
+
+    def remove_product_by_name(self,product_name):
+        Product_Xpath = f"//div[text()='{product_name}']/following::button[contains(text(),Remove)][1]"
+        locator =(By.XPATH,Product_Xpath)
+        self.click(locator)
+
+    def go_to_cart(self):
+        self.click(self.CART_ICON)
+
+    #logout functionality
+    def open_menu(self):
+        self.click(self.MENU_BTN)
+
+    def clicklogout(self):
+        self.click(self.LOGOUT_BTN)
+
+    def click_about(self):
+        self.click(self.ABOUT_BTN)
+
+    def click_reset_app_state(self):
+        self.click(self.RESET_APP_STATE)
+
 

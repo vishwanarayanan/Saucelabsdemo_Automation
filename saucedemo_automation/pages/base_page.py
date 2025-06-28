@@ -1,9 +1,10 @@
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
+from  selenium.webdriver.remote.webdriver import WebDriver
 
 class BasePage:
-    def __init__(self,driver,timeout=10):
+    def __init__(self,driver:WebDriver,timeout=10):
         self.driver= driver
         self.timeout = timeout
 
@@ -27,4 +28,7 @@ class BasePage:
         return self.find(locator).text
 
 
+    def type(self,locator,text):
+        self.find(locator).clear()
+        self.find(locator).send_keys(text)
 
