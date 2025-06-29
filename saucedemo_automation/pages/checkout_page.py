@@ -57,5 +57,6 @@ class CheckoutPage(BasePage):
            self.click(self.CLICK_CONTINUE_BTN)
         except TimeoutException as e :
             self.driver.save_screenshot("click_continue_timeout.png")
+            print("❌ Timeout waiting for Continue button to be clickable")
             raise e
 
